@@ -1,0 +1,49 @@
+package com.socialdistancer.config;
+
+import org.springframework.cache.annotation.CachingConfigurerSupport;
+import org.springframework.context.annotation.*;
+import org.springframework.data.redis.connection.RedisClusterConfiguration;
+import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
+import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.repository.configuration.EnableRedisRepositories;
+import org.springframework.data.redis.serializer.GenericToStringSerializer;
+
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+@Configuration
+@ComponentScan("com.socialdistancer")
+@EnableRedisRepositories(basePackages = "com.socialdistancer.repo")
+@PropertySource("classpath:application.properties")
+public class RedisConfig  extends CachingConfigurerSupport {
+
+    private static final Map<String, Long> cacheMap = new HashMap<String, Long>();
+    static {
+        cacheMap.put("method1cache", 600L);
+        cacheMap.put("method2cache", 600L);
+        cacheMap.put("method3cache", 800L);
+    }
+
+    @Bean
+    @Primary
+    public RedisTemplate<String, Object> redisTemplate() {
+        final RedisTemplate<String, Object> template = new RedisTemplate<String, Object>();
+        template.setConnectionFactory(lettuceConnectionFactory());
+        template.setValueSerializer(new GenericToStringSerializer<Object>(Object.class));
+        return template;
+    }
+
+    @Bean
+    public LettuceConnectionFactory lettuceConnectionFactory() {
+        List<String> nodes = Collections.singletonList("social-distancer-device-tracker-001.oqyfsq.0001.use1.cache.amazonaws.com:6379");
+        RedisClusterConfiguration clusterConfiguration = new RedisClusterConfiguration(nodes);
+        return new LettuceConnectionFactory(clusterConfiguration);
+    }
+
+
+
+
+}
