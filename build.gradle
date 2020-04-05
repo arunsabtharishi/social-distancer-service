@@ -3,67 +3,42 @@ plugins {
     id 'org.springframework.boot' version '2.0.3.RELEASE'
 }
 
-apply plugin: 'eclipse'
-apply plugin: 'eclipse-wtp'
-apply plugin: 'idea'
-
 group 'org.example'
 version '1.0-SNAPSHOT'
 
 sourceCompatibility = 1.8
 
 repositories {
-   mavenCentral()
+    mavenCentral()
 }
-//
-//bootJar {
-//    manifest {
-//        attributes 'Implementation-Title': 'Gradle Quickstart','Implementation-Version': version
-//        attributes('Start-Class': 'com.epsilon.spikedog.SpikeDogApplication')
-//    }
-//}
 
+bootJar {
+    manifest {
+        attributes 'Implementation-Title': 'Gradle Quickstart','Implementation-Version': version
+        attributes('Start-Class': 'com.test.sample.TestApplication')
+    }
+}
 
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
 
-
     def springBootVersion = "2.0.1.RELEASE"
 
-    compile group: 'org.springframework.boot' , name: 'spring-boot-starter-actuator', version:springBootVersion
-    compile group: 'org.springframework.boot', name: 'spring-boot-starter-parent', version:springBootVersion
-    compile group: 'org.springframework.boot', name: 'spring-boot-starter', version:springBootVersion
-    //compile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version:springBootVersion
-    compile("org.springframework.boot:spring-boot-starter-web") {
-        exclude module : 'spring-boot-starter-logging'
-    }
-    compile group: 'org.springframework.boot', name: 'spring-boot-starter-tomcat', version:springBootVersion
+
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-actuator', version: springBootVersion
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-parent', version: springBootVersion
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter', version: springBootVersion
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: springBootVersion
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-tomcat', version: springBootVersion
     compile group: 'org.springframework.boot', name: 'spring-boot', version: springBootVersion
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa', version: springBootVersion
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-jdbc', version: springBootVersion
-    compile group: 'org.springframework.cloud', name: 'spring-cloud-stream', version: springBootVersion
-    compile group: 'org.springframework.boot', name:'spring-boot-starter-websocket', version:springBootVersion
-    compile group:'org.springframework.cloud', name:'spring-cloud-stream-binder-kafka', version: springBootVersion
-    compile 'org.springframework.data:spring-data-redis:2.2.2.RELEASE'
-
 
     compile group: 'org.projectlombok', name: 'lombok', version: '1.16.6'
 
-    compile group: 'org.apache.kafka', name: 'kafka_2.11', version: '0.9.0.1'
-
-    compile 'com.googlecode.json-simple:json-simple:1.1.1'
-
-    compile group: 'redis.clients', name: 'jedis', version: '3.2.0'
-
-    compile("io.lettuce:lettuce-core:5.0.3.RELEASE")
-
     def jacksonVersion = "2.9.4"
     compile group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: jacksonVersion
-    compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version:jacksonVersion
-
-    configurations.all {
-        exclude module: 'slf4j-log4j12'
-    }
-
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: jacksonVersion
+    compile group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-joda', version: jacksonVersion
 
 }
